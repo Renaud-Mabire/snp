@@ -1,0 +1,27 @@
+Package: snp
+Type: Package
+Title: THE PACKAGE "SNP" (SIMULATION OF NETWOK PERTURBATION) ALLOWS TO SIMULATE PERTURBATION OF PSYCHOLOGICAL NETWORKS (E.G., SYMPTOM OR ATTITUDE NETWORKS) AND TO COMPARE THE RESULTS OF THESE SIMULATIONS. 
+Version: 0.1.0
+Author: Renaud Mabire-Yon
+Maintainer: Renaud Mabire-Yon renaud.mabire.yon@gmail.com
+Description: More information about what the package does (maybe more than one line)
+Use four spaces to indent paragraphs in the description.
+License: Under what license is it published?
+Encoding: UTF-8
+LazyData: true
+Imports:
+IsingFit
+ggplot2
+ggdist
+ggthemes
+gghalves
+magrittr
+IsingFit
+dplyr
+qgraph
+IsingSampler
+dplyr
+rstatix
+ggstatsplot
+ggthemes
+
