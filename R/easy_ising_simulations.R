@@ -154,7 +154,7 @@ easy_ising_simulations <- function(df,
 
   # Simulation of the sample(s) that can contain the -1/1 values
 
-  sample <- IsingSampler(n, SimInput$graph, thresholds = list_thresholds, beta = beta, responses = c(-1L, 1L))
+  sample <- IsingSampler(n, SimInput$graph, thresholds = list_thresholds, beta = beta, responses = c(-1L, 1L), method = "CFTP")
   # Recode the -1 by 0
   sample[sample == -1] <- 0
   # Estimation of an Ising network
