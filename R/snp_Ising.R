@@ -1,14 +1,12 @@
-
-
 snp_Ising <- function(df_list,
-                                    nodes_to_influence_list,
-                                    centrality_indices_list = NULL,
-                                    relation_list = NULL,
-                                    Fit_Ising_list = NULL,
-                                    Fit_Ising_thresholds_list,
-                                    n,
-                                    thresholds_IsingSampler_list,
-                                    beta_list) {
+                      nodes_to_influence_list,
+                      centrality_indices_list = NULL,
+                      relation_list = NULL,
+                      Fit_Ising_list = NULL,
+                      Fit_Ising_thresholds_list,
+                      n,
+                      thresholds_IsingSampler_list,
+                      beta_list) {
 
   # List of packages to install and/or load
   packages <- c(
@@ -32,7 +30,7 @@ snp_Ising <- function(df_list,
     library(pkg, character.only = TRUE)
   })
 
-
+  # Initialize default values for lists if not provided
   if (is.null(centrality_indices_list)) {
     centrality_indices_list <- vector("list", length(df_list))
   }
@@ -66,9 +64,7 @@ snp_Ising <- function(df_list,
     stop("All lists must have the same length.")
   }
 
-
-
-  # Iteration of the main function
+  # Iterate the main function over the input lists
   simulations <- Map(
     easy_ising_simulations,
     df_list,
@@ -82,31 +78,8 @@ snp_Ising <- function(df_list,
     beta_list
   )
 
-
-
+  # Assign a class and return the result as a list
   class(simulations) <- c("multi easy ising simulations obj")
-
-
-  #multi_ising_simulations_obj <- list(simulations = simulations, anova_table = anova_table)
   multi_ising_simulations_obj <- list(simulations = simulations)
   return(multi_ising_simulations_obj)
 }
-
-
-# # Regression for ANOVA
-# # ANOVA
-#
-# list_sums_score_simulation <- lapply(1:length(simulations), function(x) simulations[[x]][["sum_score_list"]])
-# list_intervention <- c(1:length(simulations))
-#
-# res_df <- data.frame(
-#   sumscore = unlist(list_sums_score_simulation),
-#   intervention = rep(paste0("Intervention: ", list_intervention),
-#     each = length(list_sums_score_simulation[[1]][[1]])
-#   )
-# )
-# # ANOVA
-# res_ANOVA <- res_df %>% anova_test(sumscore ~ intervention)
-# anova_table <- as.data.frame(res_ANOVA)
-
-# class(anova_table) <- c("ANOVA")
