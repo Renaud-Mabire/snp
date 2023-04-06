@@ -51,6 +51,3 @@ plot_diff_sumscore <- function(simulations,
   }
   print(plot)
 }
-
-
-plot_diff_sumscore(sim_1)
