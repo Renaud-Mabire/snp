@@ -2,9 +2,7 @@ Package: snp
 Type: Package
 Title: Simulation of Network Perturbation
 Version: 0.1.0
-Authors@R: c(
-    person("Renaud", "Mabire-Yon", email = "renaud.mabire.yon@gmail.com", role = c("aut", "cre")),
-)
+Authors@R: person("Renaud", "Mabire-Yon", email = "renaud.mabire.yon@gmail.com", role = c("aut", "cre"))
 Description: The package "snp" (Simulation of Network Perturbation) allows users to simulate perturbations of psychological networks (e.g., symptom or attitude networks) and compare the results of these simulations.
 License: CC BY-NC-SA 4.0
 Encoding: UTF-8
