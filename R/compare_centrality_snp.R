@@ -49,8 +49,8 @@ compare_centrality_snp <- function(simulations,
       # Convert 'graph' to a factor
       node = as.factor(node)) %>%  # Convert 'node' to a factor
     dplyr::mutate(node = forcats::fct_reorder(node, value)) %>%  # Reorder 'node' based on 'value'
-    ggplot2::ggplot(aes(x = node, y = value, group = graph)) +  # Initialize ggplot with data and aesthetics
-    ggplot2::geom_line(aes(linetype = graph), size = 1) +  # Add lines with different linetypes for each graph
+    ggplot2::ggplot(ggplot2::aes(x = node, y = value, group = graph)) +  # Initialize ggplot with data and aesthetics
+    ggplot2::geom_line(ggplot2::aes(linetype = graph), size = 1) +  # Add lines with different linetypes for each graph
     ggplot2::labs(x = '', y = '') +  # Remove axis labels
     ggplot2::scale_linetype_discrete(name = legendName) +  # Set legend title
     ggplot2::coord_flip() +  # Flip the coordinates (x and y axes)
