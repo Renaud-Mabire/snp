@@ -25,8 +25,8 @@ hist_sumscore <- function(simulations,
     ggplot2::geom_histogram(binwidth = 0.5) +  # Add histogram with bin width of 0.5
     ggplot2::facet_grid(intervention ~ .) +  # Facet the plot by intervention
     theme +  # Apply the specified theme
-    ggplot2::theme(legend.position = "right")   # Set legend position to the right
-  #+ ggplot2::labs(title = "Individual scores per intervention")  # Set the plot title
+    ggplot2::theme(legend.position = "right") +  # Set legend position to the right
+    ggplot2::labs(title = "Individual scores per intervention")  # Set the plot title
 
   # If display_mean or display_median is TRUE, add mean and/or median to the facet labels
   if (display_mean | display_median) {
