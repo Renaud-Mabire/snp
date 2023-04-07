@@ -1,7 +1,4 @@
 summary_snp <- function(simulations, CI = 0.95) {
-  # Load required packages
-  require('Rmisc')
-  require('dplyr')
 
   # Extract the sum of scores for each simulation
   list_sums_score_simulation <- lapply(1:length(simulations[[1]]), function(x)
@@ -17,7 +14,7 @@ summary_snp <- function(simulations, CI = 0.95) {
   )
 
   # Calculate the summary statistics for the sum of scores
-  simulations_summary <- summarySE(
+  simulations_summary <- Rmisc::summarySE(
     data = res_df,
     measurevar = "sumscore",
     groupvars = "intervention",
@@ -30,8 +27,8 @@ summary_snp <- function(simulations, CI = 0.95) {
 
   # Calculate the lower and upper bounds of the confidence interval
   simulations_summary <- simulations_summary %>%
-                         mutate(ciLower = sumscore_mean - ci,
-                                ciUpper = sumscore_mean + ci) %>%
+                         dplyr::mutate(ciLower = sumscore_mean - ci,
+                                       ciUpper = sumscore_mean + ci) %>%
                          dplyr::select(-ci)
 
   return(simulations_summary)

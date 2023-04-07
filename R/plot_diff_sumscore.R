@@ -7,8 +7,6 @@ plot_diff_sumscore <- function(simulations,
                                ylab = "Sum score",
                                theme = ggthemes::theme_solarized(),
                                ...) {
-  # Load required library
-  require(ggstatsplot)
 
   # Create a list of sum_score values from the simulations
   list_sums_score_simulation <- lapply(1:length(simulations[[1]]), function(x)
@@ -27,7 +25,7 @@ plot_diff_sumscore <- function(simulations,
   # Check if dots should be displayed on the plot
   if (showdots) {
     # Create the plot using ggbetweenstats function from ggstatsplot package with dots
-    plot <- ggbetweenstats(
+    plot <- ggstatsplot::ggbetweenstats(
       data = res_df,
       x = intervention,
       y = sumscore,
@@ -38,10 +36,10 @@ plot_diff_sumscore <- function(simulations,
       ...
     ) +
       theme +  # Apply the specified theme
-      theme(legend.position = "none")  # Remove the legend
+      ggplot2::theme(legend.position = "none")  # Remove the legend
   } else {
     # Create the plot using ggbetweenstats function from ggstatsplot package without dots
-    plot <- ggbetweenstats(
+    plot <- ggstatsplot::ggbetweenstats(
       data = res_df,
       x = intervention,
       y = sumscore,
@@ -55,7 +53,7 @@ plot_diff_sumscore <- function(simulations,
       ...
     ) +
       theme +  # Apply the specified theme
-      theme(legend.position = "none")  # Remove the legend
+      ggplot2::theme(legend.position = "none")  # Remove the legend
   }
 
   # Print the final plot

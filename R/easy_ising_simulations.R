@@ -7,12 +7,6 @@ easy_ising_simulations <- function(df,
                                    n,
                                    thresholds_IsingSampler,
                                    beta = 1) {
-  ## Load necessary libraries
-  library('IsingFit')
-  library('IsingSampler')
-  library('qgraph')
-  library('dplyr')
-
   ## Check if df is a data frame
   if (!is.data.frame(df)) {
     stop("df must be a data frame")
@@ -86,7 +80,7 @@ easy_ising_simulations <- function(df,
 
   ## Creation of Ising fit if it is not given as an argument
   if (is.null(Fit_Ising)) {
-    Fit_Ising <- IsingFit(df, plot = FALSE)
+    Fit_Ising <- IsingFit::IsingFit(df, plot = FALSE)
   }
 
   ## Check if Fit_Ising is an object created by IsingFit
@@ -97,11 +91,11 @@ easy_ising_simulations <- function(df,
   ## If centrality_indices is not NULL, sort the centrality values
   if (!is.null(centrality_indices)) {
     centrality_values_sorted <-
-      qgraph(Fit_Ising$weiadj, labels = names(df), DoNotPlot = TRUE) %>%
-      centralityTable(standardized = FALSE) %>%
-      filter(measure == centrality_indices) %>%
-      arrange(desc(value)) %>%
-      select(node, value)
+      qgraph::qgraph(Fit_Ising$weiadj, labels = names(df), DoNotPlot = TRUE) %>%
+      qgraph::centralityTable(standardized = FALSE) %>%
+      dplyr::filter(measure == centrality_indices) %>%
+      dplyr::arrange(desc(value)) %>%
+      dplyr::select(node, value)
   }
 
   ## Check if nodes_to_influence is a vector of variable names
@@ -116,7 +110,7 @@ easy_ising_simulations <- function(df,
       ## Get the highest centrality values
       if (relation == ">=") {
         highest_values <- centrality_values_sorted %>%
-          filter(value >= threshold)
+          dplyr::filter(value >= threshold)
       } else if (relation == "<=") {
         highest_values <- centrality_values_sorted %>%
           filter(value <= threshold)
@@ -142,16 +136,16 @@ easy_ising_simulations <- function(df,
   }
 
   ## Linear transformation
-  SimInput <- LinTransform(Fit_Ising$weiadj, Fit_Ising$thresholds)
+  SimInput <- IsingSampler::LinTransform(Fit_Ising$weiadj, Fit_Ising$thresholds)
 
   ## Simulation of the sample(s) that can contain the -1/1 values
-  sample <- IsingSampler(n, SimInput$graph, thresholds = list_thresholds, beta = beta, responses = c(-1L, 1L), method = "CFTP")
+  sample <- IsingSampler::IsingSampler(n, SimInput$graph, thresholds = list_thresholds, beta = beta, responses = c(-1L, 1L), method = "CFTP")
 
   ## Recode the -1 by 0
   sample[sample == -1] <- 0
 
   ## Estimation of an Ising network
-  Fit_sample <- IsingFit(sample, plot = FALSE)
+  Fit_sample <- IsingFit::IsingFit(sample, plot = FALSE)
 
   ## Calculation of individual scores for each of the networks
   sum_score <- apply(sample, 1, sum)

@@ -22,3 +22,5 @@ Imports:
     magrittr,
     rstatix,
     Rmisc
+    graphics
+    stats

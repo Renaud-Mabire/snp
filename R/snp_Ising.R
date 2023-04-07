@@ -8,27 +8,7 @@ snp_Ising <- function(df_list,
                       thresholds_IsingSampler_list,
                       beta_list) {
 
-  # List of packages to install and/or load
-  packages <- c(
-    "IsingFit",
-    "ggplot2",
-    "ggdist",
-    "ggthemes",
-    "gghalves",
-    "magrittr",
-    "qgraph",
-    "IsingSampler",
-    "dplyr",
-    "rstatix"
-  )
 
-  # Package loading
-  lapply(packages, function(pkg) {
-    if (!requireNamespace(pkg, quietly = TRUE)) {
-      install.packages(pkg)
-    }
-    library(pkg, character.only = TRUE)
-  })
 
   # Initialize default values for lists if not provided
   if (is.null(centrality_indices_list)) {

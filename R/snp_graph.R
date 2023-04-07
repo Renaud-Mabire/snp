@@ -8,11 +8,8 @@ snp_graph <- function(simulations,
                       legend = FALSE,
                       grah_nb_col = 3,
                       ...) {
-  # Load required libraries
-  require('qgraph')
-  require('igraph')
 
-  # Create a list of IsingFit objects from the simulations
+    # Create a list of IsingFit objects from the simulations
   Fit_Ising_list <- lapply(1:length(simulations$simulations), function(x) simulations[["simulations"]][[x]][["Fit_sample"]])
 
   # Find the maximum absolute weight across all networks
@@ -28,13 +25,13 @@ snp_graph <- function(simulations,
   net_layout <- net_layout_creation(simulations, net_layout_type = layout)
 
   # Perform community detection if network_community_detection = TRUE
-  if (network_community_detection){
+  if (network_community_detection) {
     list_NetworkCom <- lapply(
       Fit_Ising_list,
       function(x)
-        graph_from_adjacency_matrix(abs(x$weiadj), "undirected", weighted = TRUE, add.colnames = FALSE) %>% # Create igraph from IsingFit matrix
-        cluster_walktrap() %>%
-        communities() # Detect communities
+        igraph::graph_from_adjacency_matrix(abs(x$weiadj), "undirected", weighted = TRUE, add.colnames = FALSE) %>% # Create igraph from IsingFit matrix
+        igraph::cluster_walktrap() %>%
+        igraph::communities() # Detect communities
     )
   }
 
@@ -49,7 +46,7 @@ snp_graph <- function(simulations,
     par(mfrow = c(n_rows, max_cols), mar = c(3, 3, 1, 1), oma = c(0, 0, 2, 0))
     for (i in 1:n_plots) {
       set.seed(335)
-      list_graph[[i]] <- qgraph(simulations[["simulations"]][[i]][["Fit_sample"]][["weiadj"]],
+      list_graph[[i]] <- qgraph::qgraph(simulations[["simulations"]][[i]][["Fit_sample"]][["weiadj"]],
                                 groups = list_NetworkCom[[i]],
                                 nodeNames = simulations[["simulations"]][[i]][["df_names"]],
                                 edge.color = Fit_Ising_list[[i]]$q$graphAttributes$Edges$color,
@@ -65,14 +62,14 @@ snp_graph <- function(simulations,
                                 ...)
       if (i <= n_plots) {
         par(mfg = c(((i - 1) %/% max_cols) + 1, ((i - 1) %% max_cols) + 1))
-        plot.new()
+        graphics::plot.new()
       }
     }
   } else {
     par(mfrow = c(n_rows, max_cols), mar = c(3, 3, 1, 1), oma = c(0, 0, 2, 0))
     for (i in 1:n_plots) {
       set.seed(335)
-      list_graph[[i]] <- qgraph(simulations[["simulations"]][[i]][["Fit_sample"]][["weiadj"]],
+      list_graph[[i]] <- qgraph::qgraph(simulations[["simulations"]][[i]][["Fit_sample"]][["weiadj"]],
                                 nodeNames = simulations[["simulations"]][[i]][["df_names"]],
                                 edge.color = Fit_Ising_list[[i]]$q$graphAttributes$Edges$color,
                                 layout = net_layout,
@@ -87,7 +84,7 @@ snp_graph <- function(simulations,
                                 ...)
       if (i <= n_plots) {
         par(mfg = c(((i - 1) %/% max_cols) + 1, ((i - 1) %% max_cols) + 1))
-        plot.new()
+        graphics::plot.new()
       }
     }
   }

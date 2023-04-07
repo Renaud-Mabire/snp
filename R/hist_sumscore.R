@@ -3,11 +3,6 @@ hist_sumscore <- function(simulations,
                           display_mean = FALSE,
                           display_median = FALSE,
                           theme = ggthemes::theme_solarized()) {
-  # Load required libraries
-  require(dplyr)
-  require(ggplot2)
-  require(ggthemes)
-
   # Create a list of sum_score values from the simulations
   list_sums_score_simulation <-
     lapply(1:length(simulations[[1]]), function(x)
@@ -27,46 +22,46 @@ hist_sumscore <- function(simulations,
 
   # Create the base histogram plot using ggplot2
   plot <- res_df %>%
-    ggplot(aes(x = sumscore)) +  # Set the x-axis to 'sumscore'
-    geom_histogram(binwidth = 0.5) +  # Add histogram with bin width of 0.5
-    facet_grid(intervention ~ .) +  # Facet the plot by intervention
+    ggplot2::ggplot(aes(x = sumscore)) +  # Set the x-axis to 'sumscore'
+    ggplot2::geom_histogram(binwidth = 0.5) +  # Add histogram with bin width of 0.5
+    ggplot2::facet_grid(intervention ~ .) +  # Facet the plot by intervention
     theme +  # Apply the specified theme
-    theme(legend.position = "right") +  # Set legend position to the right
-    labs(title = "Individual scores per intervention")  # Set the plot title
+    ggplot2::theme(legend.position = "right") +  # Set legend position to the right
+    ggplot2::themelabs(title = "Individual scores per intervention")  # Set the plot title
 
   # If display_mean or display_median is TRUE, add mean and/or median to the facet labels
   if (display_mean | display_median) {
     intervention_stats <- res_df %>%
-      group_by(intervention) %>%  # Group data by intervention
-      summarise(mean_score = mean(sumscore),
-                median_score = median(sumscore))  # Calculate mean and median scores
+      dplyr::group_by(intervention) %>%  # Group data by intervention
+      dplyr::summarise(mean_score = mean(sumscore),
+                       median_score = median(sumscore))  # Calculate mean and median scores
 
     plot <- plot +
-            scale_color_manual(name = "",
-                               values = c("Mean" = "blue", "Median" = "red")) +  # Set colors for mean and median lines
-      facet_wrap( ~ intervention,
-                  ncol = 4,
-                  labeller = labeller(
-                    intervention = function(x) {
-                      label <- paste0("Intervention ", x)  # Base intervention label
-                      if (display_mean) {
-                        label <-
-                          paste0(label,
-                                 "\nMean: ",
-                                 round(intervention_stats$mean_score[intervention_stats$intervention == x], 2))  # Add mean score to the label
-                      }
-                      if (display_median) {
-                        label <-
-                          paste0(label,
-                                 ", Median: ",
-                                 round(intervention_stats$median_score[intervention_stats$intervention == x], 2))  # Add median score to the label
-                      }
-                      label  # Return the modified label
-                    }
-                  ))
+      ggplot2::scale_color_manual(name = "",
+                                  values = c("Mean" = "blue", "Median" = "red")) +  # Set colors for mean and median lines
+      ggplot2::facet_wrap(~ intervention,
+                          ncol = 4,
+                          labeller = labeller(
+                            intervention = function(x) {
+                              label <- paste0("Intervention ", x)  # Base intervention label
+                              if (display_mean) {
+                                label <-
+                                  paste0(label,
+                                         "\nMean: ",
+                                         round(intervention_stats$mean_score[intervention_stats$intervention == x], 2))  # Add mean score to the label
+                              }
+                              if (display_median) {
+                                label <-
+                                  paste0(label,
+                                         ", Median: ",
+                                         round(intervention_stats$median_score[intervention_stats$intervention == x], 2))  # Add median score to the label
+                              }
+                              label  # Return the modified label
+                            }
+                          ))
   } else {
     # If display_mean and display_median are FALSE, just facet the plot by intervention without modifying the labels
-    plot <- plot + facet_wrap( ~ intervention, ncol = 4)
+    plot <- plot + ggplot2::facet_wrap(~ intervention, ncol = 4)
   }
 
   # Print the final plot

@@ -11,11 +11,8 @@ compare_centrality_snp <- function(simulations,
                                                "Betweenness",
                                                "ExpectedInfluence"),
                                    legendName = '',
-                                   networkNames = NULL) {
-
-  # Load required libraries
-  library('ggplot2')
-  library('forcats')
+                                   networkNames = NULL,
+                                   theme = ggthemes::theme_solarized()) {
 
   # If 'all' or 'All' is included in the 'include' parameter, use all centrality measures
   if (any(include == "All", include == "all")) {
@@ -33,7 +30,7 @@ compare_centrality_snp <- function(simulations,
   )
 
   # Use do.call to pass the list of networks to centralityTable function
-  df <- do.call(centralityTable, weiadj_list) %>% filter(measure %in% include)
+  df <- do.call(centralityTable, weiadj_list) %>% dplyr::filter(measure %in% include)
 
   # Generate network names if not provided
   if (is.null(networkNames)) {
@@ -41,22 +38,22 @@ compare_centrality_snp <- function(simulations,
   }
 
   # Create a named list to map graph labels to network names
-  networkNameMapping <- setNames(networkNames, paste0("graph ", 1:Nb_simulations))
+  networkNameMapping <- stats::setNames(networkNames, paste0("graph ", 1:Nb_simulations))
 
   # Create the plot using ggplot2
   df %>%
-    mutate(
+    dplyr::mutate(
       graph = recode(graph,!!!networkNameMapping),
       # Map graph labels to network names
       graph = as.factor(graph),
       # Convert 'graph' to a factor
       node = as.factor(node)) %>%  # Convert 'node' to a factor
-    mutate(node = fct_reorder(node, value)) %>%  # Reorder 'node' based on 'value'
-    ggplot(aes(x = node, y = value, group = graph)) +  # Initialize ggplot with data and aesthetics
-    geom_line(aes(linetype = graph), size = 1) +  # Add lines with different linetypes for each graph
-    labs(x = '', y = '') +  # Remove axis labels
-    scale_linetype_discrete(name = legendName) +  # Set legend title
-    coord_flip() +  # Flip the coordinates (x and y axes)
-    facet_grid( ~ measure) +  # Facet the plot by centrality measure
-    theme_bw()  # Use black and white theme
+    dplyr::mutate(node = fct_reorder(node, value)) %>%  # Reorder 'node' based on 'value'
+    ggplot2::ggplot(aes(x = node, y = value, group = graph)) +  # Initialize ggplot with data and aesthetics
+    ggplot2::geom_line(aes(linetype = graph), size = 1) +  # Add lines with different linetypes for each graph
+    ggplot2::labs(x = '', y = '') +  # Remove axis labels
+    ggplot2::scale_linetype_discrete::scale_linetype_discrete(name = legendName) +  # Set legend title
+    ggplot2::coord_flip() +  # Flip the coordinates (x and y axes)
+    ggplot2::facet_grid( ~ measure) +  # Facet the plot by centrality measure
+    theme  # Fixe the theme
 }
