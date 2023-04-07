@@ -52,7 +52,7 @@ compare_centrality_snp <- function(simulations,
     ggplot2::ggplot(aes(x = node, y = value, group = graph)) +  # Initialize ggplot with data and aesthetics
     ggplot2::geom_line(aes(linetype = graph), size = 1) +  # Add lines with different linetypes for each graph
     ggplot2::labs(x = '', y = '') +  # Remove axis labels
-    ggplot2::scale_linetype_discrete::scale_linetype_discrete(name = legendName) +  # Set legend title
+    ggplot2::scale_linetype_discrete(name = legendName) +  # Set legend title
     ggplot2::coord_flip() +  # Flip the coordinates (x and y axes)
     ggplot2::facet_grid( ~ measure) +  # Facet the plot by centrality measure
     theme  # Fixe the theme
