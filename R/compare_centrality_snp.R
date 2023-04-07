@@ -30,7 +30,7 @@ compare_centrality_snp <- function(simulations,
   )
 
   # Use do.call to pass the list of networks to centralityTable function
-  df <- do.call(centralityTable, weiadj_list) %>% dplyr::filter(measure %in% include)
+  df <- do.call(qgraph::centralityTable, weiadj_list) %>% dplyr::filter(measure %in% include)
 
   # Generate network names if not provided
   if (is.null(networkNames)) {
