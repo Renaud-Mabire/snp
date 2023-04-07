@@ -20,7 +20,7 @@ snp_Ising <- function(df_list,
   }
 
   if (is.null(Fit_Ising_list)) {
-    Fit_Ising_list <- lapply(df_list, function(x) IsingFit(x, plot = FALSE))
+    Fit_Ising_list <- lapply(df_list, function(x) IsingFit::IsingFit(x, plot = FALSE))
   }
 
   # Check that all argument lists have the same length
