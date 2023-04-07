@@ -1,3 +1,4 @@
 exportPattern("^[[:alpha:]]+")
 import(qgraph)
 import(forcats)
+import(ggplot2)
