@@ -43,7 +43,7 @@ compare_centrality_snp <- function(simulations,
   # Create the plot using ggplot2
   df %>%
     dplyr::mutate(
-      graph = recode(graph,!!!networkNameMapping),
+      graph = dplyr::recode(graph,!!!networkNameMapping),
       # Map graph labels to network names
       graph = as.factor(graph),
       # Convert 'graph' to a factor
