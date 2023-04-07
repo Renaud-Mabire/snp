@@ -31,7 +31,7 @@ snp_plot <- function(simulations, CI = 0.95, theme = ggthemes::theme_solarized()
   sumScoresPlot <- ggplot2::ggplot(data = data_summary_snp,
                                    mapping = aes(x = intervention, y = sumscore_mean, group = 1)) +
                    ggplot2::geom_line() +
-                   ggplot2::ggplot2::geom_point() +
+                   ggplot2::geom_point() +
                    ggplot2::geom_errorbar(mapping = ggplot2::aes(ymin = ciLower, ymax = ciUpper), width = .15) +
                    ggplot2::labs(x = "Intervention", y = "Sum score") +
                    ggplot2::labs(subtitle = paste( "ANOVA: F(", df1, ",", df2, ") =",
