@@ -141,6 +141,7 @@ easy_ising_simulations <- function(df,
   ## Simulation of the sample(s) that can contain the -1/1 values
   sample <- IsingSampler::IsingSampler(n, SimInput$graph, thresholds = list_thresholds, beta = beta, responses = c(-1L, 1L), method = "CFTP")
   sample_resc <- sample
+
   ## Recode the -1 by 0
   sample_resc[sample_rec == -1] <- 0
 

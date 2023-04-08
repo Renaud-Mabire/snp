@@ -40,3 +40,6 @@ vignettes/*.pdf
 
 # Brouillons
 Brouillon à supprimer/
+
+# don't test on github
+.github/
