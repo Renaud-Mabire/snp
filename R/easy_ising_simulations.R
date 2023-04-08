@@ -143,7 +143,7 @@ easy_ising_simulations <- function(df,
   sample_resc <- sample
 
   ## Recode the -1 by 0
-  sample_resc[sample_rec == -1] <- 0
+  sample_resc[sample_resc == -1] <- 0
 
   ## Estimation of an Ising network
   Fit_sample <- IsingFit::IsingFit(sample_resc, plot = FALSE)
