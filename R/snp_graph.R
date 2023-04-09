@@ -10,7 +10,7 @@ snp_graph <- function(simulations,
                       ...) {
 
     # Create a list of IsingFit objects from the simulations
-  Fit_Ising_list <- lapply(1:length(simulations$simulations), function(x) simulations[["simulations"]][[x]][["Fit_sample"]])
+  Fit_Ising_list <- lapply(seq_along(simulations$simulations), function(x) simulations[["simulations"]][[x]][["Fit_sample"]])
 
   # Find the maximum absolute weight across all networks
   max_value <- max(unlist(lapply(simulations[["simulations"]], function(x) max(abs(x[["Fit_sample"]][["weiadj"]])))))

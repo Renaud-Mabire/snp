@@ -7,51 +7,49 @@ easy_ising_simulations <- function(df,
                                    n,
                                    thresholds_IsingSampler,
                                    beta = 1) {
-  ## Check if df is a data frame
+  # Check if df is a data frame
   if (!is.data.frame(df)) {
     stop("df must be a data frame")
   }
 
-  ## Check if centrality_indices is NULL or not
+  # Check if centrality_indices is one of the acceptable values
   if (!is.null(centrality_indices)) {
-    ## Check if centrality_indices is one of the acceptable values
     acceptable_values_centrality_indices <- c("Betweenness", "Closeness", "Strength", "ExpectedInfluence")
-    if (!centrality_indices %in% acceptable_values_centrality_indices) {
-      stop(sprintf("centrality_indices must be one of the following values: %s", paste(acceptable_values_centrality_indices, collapse = ", ")))
-    }
+    centrality_indices <- match.arg(centrality_indices, acceptable_values_centrality_indices)
   }
 
-  ## Check if nodes_to_influence is one of the acceptable values
-  if (!is.numeric(nodes_to_influence) & !all(nodes_to_influence %in% colnames(df))) {
+  # Check if nodes_to_influence is one of the acceptable values
+  is_numeric_nodes_to_influence <- is.numeric(nodes_to_influence)
+  if (!is_numeric_nodes_to_influence & !all(nodes_to_influence %in% colnames(df))) {
     stop("'nodes_to_influence' must be either a numeric vector or a vector composed of the name of one or more dataframe variables.")
   }
 
-  ## If it is a numerical value, check that there is only one.
-  if (is.numeric(nodes_to_influence) && length(nodes_to_influence) != 1) {
+  # Check if nodes_to_influence is numeric and there is only one value
+  if (is_numeric_nodes_to_influence && length(nodes_to_influence) != 1) {
     stop("nodes_to_influence should be a numeric vector with a single value (or a vector composed of the name of one or more dataframe variables).")
   }
 
-  ## Check if centrality_indices is not NULL if nodes_to_influence is numeric
-  if (is.numeric(nodes_to_influence) && is.null(centrality_indices)) {
+  # Check if centrality_indices is not NULL if nodes_to_influence is numeric
+  if (is_numeric_nodes_to_influence && is.null(centrality_indices)) {
     stop("centrality_indices cannot be NULL if nodes_to_influence is numeric.")
   }
 
-  ## Check if centrality_indices is NULL, nodes_to_influence must be one one or more variable names belonging to the df data frame
-  if (is.null(centrality_indices) && (!is.character(nodes_to_influence) || any(!nodes_to_influence %in% names(df)))) {
-    stop("If centrality_indices is NULL, nodes_to_influence must be one or more variable names belonging to the df data frame.")
+  # Check if relation is one of the acceptable values
+  if (!is.null(relation)) {
+    relation <- match.arg(relation, c(">=", "<="))
   }
 
-  ## Check if n is a numeric value and is greater than 1
+  # Check if n is a numeric value and is greater than 1
   if (!is.numeric(n) || n < 1) {
     stop("n must be a numeric value greater than 1.")
   }
 
-  ## Check that thresholds_IsingSampler is an integer
+  # Check that thresholds_IsingSampler is an integer
   if (!is.numeric(thresholds_IsingSampler)) {
     stop("The 'thresholds_IsingSampler' argument must be a positive or negative integer")
   }
 
-  ## Check if beta is a single numeric value and not NULL
+  # Check if beta is a single numeric value and not NULL
   if (is.null(beta) || !is.numeric(beta) || length(beta) != 1) {
     stop("beta must be a single numeric value.")
   }

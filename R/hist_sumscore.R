@@ -5,11 +5,11 @@ hist_sumscore <- function(simulations,
                           theme = ggthemes::theme_solarized()) {
   # Create a list of sum_score values from the simulations
   list_sums_score_simulation <-
-    lapply(1:length(simulations[[1]]), function(x)
+    lapply(seq_along(simulations[[1]]), function(x)
       simulations[["simulations"]][[x]][["sum_score"]])
 
   # Create a list of intervention numbers
-  list_intervention <- c(1:length(simulations[[1]]))
+  list_intervention <- c(seq_along(simulations[[1]]))
 
   # Create a data frame with sumscore and intervention columns
   res_df <- data.frame(

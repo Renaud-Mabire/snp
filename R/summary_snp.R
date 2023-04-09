@@ -1,7 +1,7 @@
 summary_snp <- function(simulations, CI = 0.95) {
 
   # Extract the sum of scores for each simulation
-  list_sums_score_simulation <- lapply(1:length(simulations[[1]]), function(x)
+  list_sums_score_simulation <- lapply(seq_along(simulations[[1]]), function(x)
                                        simulations[["simulations"]][[x]][["sum_score"]])
 
   list_intervention <- c(1:length(simulations[[1]]))
