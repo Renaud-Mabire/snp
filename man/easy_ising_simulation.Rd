@@ -25,6 +25,7 @@ easy_ising_simulations(df,
 \item{n}{A numeric value specifying the number of samples to simulate. Must be greater than 1.}
 \item{thresholds_IsingSampler}{A numeric value indicating the extent of modification applied to the threshold level. This value can be a positive or negative integer, representing the number of standard deviations added or subtracted from the original threshold. For instance, a value of 1 signifies the addition of one standard deviation to the existing threshold, whereas a value of -0.5 denotes the removal of half a standard deviation from the original threshold.}
 \item{beta}{A single numeric value representing the inverse temperature parameter for the Ising model. Default is 1.}
+\item{IsingSampler_method}{Method used for internal function IsingSampler::IsingSampler. Can be "MH", "CFTP" or "direct". For more details, see IsingSampler::IsingSampler.}
 }
 \details{
 This function performs simulations of the Ising model by first estimating an Ising network based on the input data frame using the \code{IsingFit} function. The user can modify the thresholds of specific nodes in the network based on their centrality indices and run the simulation to observe the effects of these modifications on the overall network.

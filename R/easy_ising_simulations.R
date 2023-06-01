@@ -6,7 +6,8 @@ easy_ising_simulations <- function(df,
                                    Fit_Ising_thresholds = FALSE,
                                    n,
                                    thresholds_IsingSampler,
-                                   beta = 1) {
+                                   beta = 1,
+                                   IsingSampler_method = IsingSampler_method) {
   # Check if df is a data frame
   if (!is.data.frame(df)) {
     stop("df must be a data frame")
@@ -137,7 +138,7 @@ easy_ising_simulations <- function(df,
   SimInput <- IsingSampler::LinTransform(Fit_Ising$weiadj, Fit_Ising$thresholds)
 
   ## Simulation of the sample(s) that can contain the -1/1 values
-  sample <- IsingSampler::IsingSampler(n, SimInput$graph, thresholds = list_thresholds, beta = beta, responses = c(-1L, 1L), method = "CFTP")
+  sample <- IsingSampler::IsingSampler(n, SimInput$graph, thresholds = list_thresholds, beta = beta, responses = c(-1L, 1L), method = IsingSampler_method)
   sample_resc <- sample
 
   ## Recode the -1 by 0

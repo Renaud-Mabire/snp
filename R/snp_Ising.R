@@ -6,7 +6,8 @@ snp_Ising <- function(df_list,
                       Fit_Ising_thresholds_list,
                       n,
                       thresholds_IsingSampler_list,
-                      beta_list) {
+                      beta_list,
+                      IsingSampler_method_list) {
 
 
 
@@ -55,7 +56,8 @@ snp_Ising <- function(df_list,
     Fit_Ising_thresholds_list,
     n,
     thresholds_IsingSampler_list,
-    beta_list
+    beta_list,
+    IsingSampler_method_list
   )
 
   # Assign a class and return the result as a list

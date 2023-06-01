@@ -25,6 +25,7 @@ snp_Ising(df_list,
 \item{n}{A numeric value specifying the number of samples to simulate. Must be greater than 1.}
 \item{thresholds_IsingSampler_list}{A list of numeric value indicating the extent of modification applied to the threshold level. This value can be a positive or negative integer, representing the number of standard deviations added or subtracted from the original threshold. For instance, a value of 1 signifies the addition of one standard deviation to the existing threshold, whereas a value of -0.5 denotes the removal of half a standard deviation from the original threshold.}
 \item{beta_list}{A list of single numeric values representing the inverse temperature parameter for the Ising model for each data frame in df_list.}
+\item{IsingSampler_method_list}{List specifying the method used for the IsingSampler::IsingSampler function. Can be "MH", "CFTP" or "direct". For more details, see IsingSampler::IsingSampler.}
 }
 \details{
 The \code{snp_Ising} function is designed to perform multiple Ising model simulations using the \code{easy_ising_simulations} function. This function takes multiple input scenarios, such as different data frames, nodes to influence, centrality indices, and other parameters, and runs the corresponding simulations in parallel.
