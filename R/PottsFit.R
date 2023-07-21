@@ -50,7 +50,7 @@ PottsFit <- function(data, possible_responses = c(1, 2, 3),
   K <- length(possible_responses)
 
   # Initialize J as a 4D array
-  J <- array(0, dim = c(length(data), length(data), K, K))
+  J <- array(0, dim = c(ncol(data), ncol(data), K, K))
   #Here's how each dimension of J is interpreted in the code above:
   #The first dimension corresponds to the response variable (the variable for which the regression model has been fitted).
   # The second dimension corresponds to the predictor variable (the variable whose coefficient is being stored).
@@ -63,7 +63,7 @@ PottsFit <- function(data, possible_responses = c(1, 2, 3),
   print(dim(J))
 
   # Initialize h as a matrix of zeros with a row for each variable and a column for each level
-  h <- matrix(0, nrow = length(data), ncol = K)
+  h <- matrix(0, nrow = ncol(data), ncol = K)
 
 
   # ----------------------------------------------------------------------------------------------
@@ -153,13 +153,7 @@ PottsFit <- function(data, possible_responses = c(1, 2, 3),
   # -------------------------------------------------------------------
 
 
-  ## Vérifications / débuggage
-
-  print(dim(coefs))
-  print(dim(data))
-
-
-  # TROUVER J ---------------------------------------------------------------
+  # Find J ---------------------------------------------------------------
 
   # Loop over each response variable to get the coefficients
   for (i in seq_along(variables)) { # i corresponds to the response variable
@@ -168,30 +162,36 @@ PottsFit <- function(data, possible_responses = c(1, 2, 3),
     # Find the lambda that minimizes the cross-validation error
     lambda_min <- models[[var]]$lambda.min
 
+    # Retrieves and assigns the model coefficients (beta) for the specific variable 'var' of the fitted glmnet model, stored in the 'models' list
+    beta <- models[[var]]$glmnet.fit$beta
+
     # Find the s corresponding to this lambda
     s_min <- 1 / lambda_min
 
     # Find the column of beta corresponding to this s
     s_min_col <- which.min(abs(models[[var]]$glmnet.fit$lambda - s_min))
 
-    # Convert s_min_col to a string
-    s_min_col_str <- paste0("s", s_min_col - 1)  # subtract 1 because s0 corresponds to the first column, s1 to the second, etc.
+    # Convert s_min_col to a string, subtract 1 because s0 corresponds to the first column, s1 to the second, etc.
+    # subtract 1 because s0 corresponds to the first column, s1 to the second, etc.
+    s_min_col_str <- paste0("s", s_min_col - 1)
+
 
     # Get the coefficients for each level of the response variable and each predictor variable
-    for (k in seq_along(models[[var]]$glmnet.fit$beta)) { # k corresponds to the level of the response variable
+    for (k in seq_along(beta)) { # k corresponds to the level of the response variable
       for (l in seq_along(variables)) { # l corresponds to the predictor variable
         if (i != l) {
-          coefs <- as.matrix(models[[var]]$glmnet.fit$beta[[k]])[, s_min_col_str, drop = FALSE]
-
-
+          # Get the coefficients for all levels of the predictor variable at s_min_col
+          coefs <- as.matrix(beta[[k]])[, s_min_col_str, drop = FALSE]
 
           for (j in seq_along(coefs)){
-            J[i, l, k, ] <- coefs[[j]]  # Store the coefficients for all levels of the predictor variable
+            # Store the coefficients for all levels of the predictor variable
+            J[i, l, k, ] <- coefs[[j]]
           }
         }
       }
     }
   }
+
 
 
 
@@ -229,14 +229,8 @@ PottsFit <- function(data, possible_responses = c(1, 2, 3),
   # Iterate over each pair of variables
   for (i in seq_along(variables)) {
     for (j in seq_along(possible_responses)) {
-      # Debug information
-      message(paste("Current i, j:", i, j))
-      message(paste("Dimensions of J:", paste(dim(J), collapse = ", ")))
       # Skip the case where i == j, as J[i, , , m] would be empty
       if (i != j) {
-        # Print out dimensions and current indices
-        print(paste("Dimensions of J:", paste(dim(J), collapse = ", ")))
-        print(paste("Current i, j:", i, j))
         # Calculate the mean of all coefficients between this pair of variables
         J_mean[i, j] <- mean(J[i, , , j])
       }
