@@ -41,8 +41,6 @@ PottsFit <- function(data, possible_responses = c(1, 2, 3),
   }
 
 
-
-
   # -------------------------------------------------------------
   # --------------- Part 1: Initialize Parameters ---------------
   # -------------------------------------------------------------
@@ -56,11 +54,6 @@ PottsFit <- function(data, possible_responses = c(1, 2, 3),
   # The second dimension corresponds to the predictor variable (the variable whose coefficient is being stored).
   # The third dimension corresponds to the level of the response variable for which the coefficient has been calculated.
   # The fourth dimension corresponds to the level of the predictor variable for which the coefficient has been calculated.
-
-
-  # Debug
-
-  print(dim(J))
 
   # Initialize h as a matrix of zeros with a row for each variable and a column for each level
   h <- matrix(0, nrow = ncol(data), ncol = K)
@@ -119,7 +112,7 @@ PottsFit <- function(data, possible_responses = c(1, 2, 3),
     )
 
     # Set the dependent variable
-    y <- data[[var]]
+    y <- data[[var]] 
 
 
     tryCatch(
@@ -191,9 +184,6 @@ PottsFit <- function(data, possible_responses = c(1, 2, 3),
       }
     }
   }
-
-
-
 
   # To have h ---------------------------------------------------------------
 
