@@ -88,7 +88,7 @@ PottsFit <- function(data, possible_responses = c(1, 2, 3),
     # Generate the formula string
     tryCatch(
       {
-        formula_str <- sprintf("%s ~ %s", var, paste(setdiff(variables, var), collapse = " + "))
+        formula_str <- sprintf("%s ~ %s", var, paste(setdiff(variables, var), collapse = " + ")) # The formula string is of the form "var ~ var1 + var2 + var3 + ..."
       },
       error = function(e) {
         stop(paste("An error occurred while creating the formula for the variable", var, ": ", e$message))
@@ -96,7 +96,7 @@ PottsFit <- function(data, possible_responses = c(1, 2, 3),
     )
 
     # Convert the formula string into a real formula with as.formula()
-    formula_str <- as.formula(formula_str)
+    formula_str <- as.formula(formula_str) # Convert the formula string into a real formula with as.formula()
 
     # Create a model matrix
     # Create a model matrix we use the formula string to create a model matrix.
@@ -104,7 +104,7 @@ PottsFit <- function(data, possible_responses = c(1, 2, 3),
     # The [, -1] option is used to exclude the first column from the matrix, which is an intercept column (a 1s column) that we don't need for glmnet.
     tryCatch(
       {
-        x <- model.matrix(formula_str, data)[, -1] # Exclude the intercept
+        x <- model.matrix(formula_str, data)[, -1] # Exclude the intercept column (the first column) from the matrix because we don't need it for glmnet 
       },
       error = function(e) {
         stop(paste("An error occurred while creating the model matrix for the variable", var, ": ", e$message))
@@ -118,7 +118,7 @@ PottsFit <- function(data, possible_responses = c(1, 2, 3),
     tryCatch(
       {
         # Perform regularized multinomial regression
-        cvfit <- cv.glmnet(x, y, alpha = alphaSeq, nfolds = nfolds, nlambda = nlambda, family = "multinomial")
+        cvfit <- cv.glmnet(x, y, alpha = alphaSeq, nfolds = nfolds, nlambda = nlambda, family = "multinomial") # Perform regularized multinomial regression
       },
       error = function(e) {
         stop(paste("An error occurred when calling cv.glmnet for the variable", var, ": ", e$message))
@@ -126,7 +126,7 @@ PottsFit <- function(data, possible_responses = c(1, 2, 3),
     )
 
     # Store our model in the list of models
-    models[[var]] <- cvfit
+    models[[var]] <- cvfit 
 
   }
 
@@ -202,7 +202,7 @@ PottsFit <- function(data, possible_responses = c(1, 2, 3),
     # Obtenir les intercepts correspondant à cette valeur de s.
     intercepts <- models[[var]]$glmnet.fit$a0[, s_min_col]
 
-    # Stocker ces intercepts dans h. Il n'est plus nécessaire de prendre la moyenne car nous avons un emplacement pour chaque niveau.
+    # Store these intercepts in h. It's no longer necessary to take the average, as we have a location for each level. # nolint: line_length_linter.
     h[i, ] <- intercepts
   }
 
@@ -231,7 +231,7 @@ PottsFit <- function(data, possible_responses = c(1, 2, 3),
   # -------------------------------------------------------------
   # --------------- Part 5: Network Visualization ---------------
   # -------------------------------------------------------------
-
+  # Plot the network if plot = TRUE
   if (plot) {
 
     qgraph::qgraph(J_mean,
